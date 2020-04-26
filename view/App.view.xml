@@ -1,0 +1,179 @@
+<mvc:View controllerName="com.anders.fancytree.controller.App" 
+    xmlns:m="sap.m" 
+    xmlns="sap.ui.table" 
+    xmlns:f="sap.f" 
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" 
+    xmlns:fb="sap.ui.comp.filterbar" 
+    xmlns:form="sap.ui.layout.form" 
+    xmlns:l="sap.ui.layout" 
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true">
+
+    <!--    <m:VBox id="tree" class="fancytree-container">
+        <m:Button id="btnHello" text="Say Hello" press=".onShowHello"/>
+    </m:VBox> -->
+
+    <!--     <l:HorizontalLayout id="tree" class="sapUiContentPadding fancytree-container">
+
+    </l:HorizontalLayout> -->
+    <m:App id="MessageMonitorApp">
+        <f:DynamicPage id="serObjPage" fitContent="true">
+            <!-- <m:Page showHeader="false" enableScrolling="false" class="sapUiContentPadding"> -->
+            <f:title>
+                <f:DynamicPageTitle id="serObjTitle" backgroundDesign="Solid">
+                    <f:heading>
+                        <!--<sv:SmartVariantManagement id="OverviewVariant"-->
+                        <!-- persistencyKey="nw.core.aif.a.messagemonitoringoverview.overview.s1" showShare="true" showExecuteOnSelection="true" entitySet="IFStats"/>-->
+                    </f:heading>
+                    <f:snappedContent>
+                        <m:Text id="statusText"></m:Text>
+                    </f:snappedContent>
+                </f:DynamicPageTitle>
+            </f:title>
+            <f:header>
+                <f:DynamicPageHeader id="serObjHeader" backgroundDesign="Solid">
+                    <f:content>
+                        <!--                      <smartFilterBar:SmartFilterBar id="smartFilterBar" smartVariant="__SVM01" useToolbar="false" entitySet="SerObj" persistencyKey="fiori.test.application2.view.S4.FilterBar" assignedFiltersChanged="onAssignedFiltersChanged" enableBasicSearch="true" basicSearchFieldName="namespace_serobj">
+                            <smartFilterBar:controlConfiguration>
+                                <smartFilterBar:ControlConfiguration key="namespace_serobj" label="Namespace">
+                                </smartFilterBar:ControlConfiguration>
+                                <smartFilterBar:ControlConfiguration key="serial_object" label="Serialization Object">
+                                </smartFilterBar:ControlConfiguration>
+                            </smartFilterBar:controlConfiguration>
+
+                            <smartFilterBar:groupConfiguration>
+                                <smartFilterBar:GroupConfiguration key="SerObj" label="Serialization Object">
+                                </smartFilterBar:GroupConfiguration>
+
+                            </smartFilterBar:groupConfiguration>
+
+                            <smartFilterBar:layoutData>
+                                <m:FlexItemData shrinkFactor="0"/>
+                            </smartFilterBar:layoutData>
+                        </smartFilterBar:SmartFilterBar> -->
+
+                        <fb:FilterBar id="messageFilterbar" search="onSearch" showRestoreButton="false" showClearButton="false" showFilterConfiguration="false" useToolbar="false">
+                            <fb:filterGroupItems >
+                                <fb:FilterGroupItem id="NS" groupName="AIFStandard" groupTitle="{i18n>AIFStandard}" label="Namespace" labelTooltip="Namespace" name="Namesapce" visibleInFilterBar="true">
+                                    <fb:control>
+                                        <m:Input id="NSInput" type="Text" placeholder="Serialization Namespace" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" width="15rem" class="sapUiSmallMarginBottom" />
+                                    </fb:control>
+                                </fb:FilterGroupItem>
+                                <fb:FilterGroupItem id="SEROBJ" groupName="AIFStandard" groupTitle="{i18n>AIFStandard}" label="Serialization Object" labelTooltip="Serialization Object" name="SerObj" visibleInFilterBar="true">
+                                    <fb:control>
+                                        <m:Input id="SEROBJInput" placeholder="Serialization Object" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" width="15rem" class="sapUiSmallMarginBottom" />
+                                    </fb:control>
+                                </fb:FilterGroupItem>
+                            </fb:filterGroupItems>
+                        </fb:FilterBar>
+                    </f:content>
+                </f:DynamicPageHeader>
+            </f:header>
+            <f:content>
+                <!-- <m:content> -->
+                <!-- <m:VBox> -->
+                <!-- <m:Button id="btnHello" text="Say Hello" press=".onShowHello"/> -->
+                <Table id="table" rows="{
+                                    path: '/SerObj',
+                                    parameters: {
+                                        $$updateGroupId: 'updateSerObj',
+                                        $count: true
+								} }" selectionMode="MultiToggle" visibleRowCount="7" ariaLabelledBy="title">
+                    <extension>
+                        <m:OverflowToolbar>
+                            <m:Button enabled="{!${ui>/bCreateItemPending}" icon="sap-icon://add" id="createSerObj" press="onCreateSerObj" tooltip="Create Serialization Object">
+                                <m:dependents>
+                                    <m:Dialog id="createSerObjDialog" title="Create New Serialization Object">
+                                        <m:buttons>
+                                            <m:Button id="confirmCreateSerObj" text="OK" press="onCloseSerObjDialog" type="Accept"/>
+                                            <m:Button id="cancelCreateSerObj" text="Cancel" press="onCloseSerObjDialog" type="Reject"/>
+                                        </m:buttons>
+                                        <form:SimpleForm ariaLabelledBy="createSerObjDialog" editable="true" layout="ResponsiveGridLayout">
+                                            <m:Label text="Namesapce"/>
+                                            <!-- TODO Q: derive maxLength from type's constraints?! A: SmartField?! -->
+                                            <m:Input id="NSNew" maxLength="6" type="Text" placeholder="Serialization Namespace" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" value="{/namespace_serobj}">
+
+                                            </m:Input>
+                                            <m:Label text="Serialization Object"/>
+                                            <m:Input id="SerObjNew" value="{/serial_object}"/>
+
+                                        </form:SimpleForm>
+                                    </m:Dialog>
+                                </m:dependents>
+                            </m:Button>
+                            <m:Button enabled="{= ${ui>/bSerObjSelected}
+							&amp;&amp; !${ui>/bCreateItemPending}}" icon="sap-icon://delete" id="deleteSerObj" press="onDeleteSerObj" tooltip="Delete Serialization Object"/>
+                            <m:Button icon="sap-icon://save" id="saveSerObjs" press="onSaveSerObjList" tooltip="Save Serialization Object"/>
+                        </m:OverflowToolbar>
+                    </extension>
+                    <columns>
+                        <Column>
+                            <m:Label text="Serialization Object Namespace" />
+                            <template>
+                                <m:Text text="{namespace_serobj}" wrapping="false"/>
+                            </template>
+                        </Column>
+                        <Column>
+                            <m:Label text="Serialization Object" />
+                            <template>
+                                <m:Text text="{serial_object}" wrapping="false"/>
+                            </template>
+                        </Column>
+                        <Column hAlign="End">
+                            <m:Label text="Serialization Type" />
+                            <template>
+                                <m:Input value="{serial_type}" wrapping="false"/>
+                            </template>
+                        </Column>
+                        <Column>
+                            <m:Label text="Serialization Table" />
+                            <template>
+                                <m:Input value="{serial_table}" wrapping="false"/>
+                            </template>
+                        </Column>
+                        <Column>
+                            <m:Label text="Enqueue Object" />
+                            <template>
+                                <m:Input value="{enq_obj_serial}" wrapping="false"/>
+                            </template>
+                        </Column>
+                        <Column>
+                            <m:Label text="Enqueue Object for Locking" />
+                            <template>
+                                <m:Input value="{enq_obj_lock}" wrapping="false"/>
+                            </template>
+                        </Column>
+                        <Column hAlign="End">
+                            <m:Label text="Maximum Retry Number" />
+                            <template>
+                                <m:Input value="{max_no_retries}" wrapping="false"/>
+                            </template>
+                        </Column>
+                        <Column hAlign="End">
+                            <m:Label text="Waiting Time in Seconds" />
+                            <template>
+                                <m:Input value="{wait_time_sec}" wrapping="false"/>
+                            </template>
+                        </Column>
+                        <Column hAlign="End">
+                            <m:Label text="Start External Index" />
+                            <template>
+                                <m:Input value="{start_ext_index}" wrapping="false"/>
+                            </template>
+                        </Column>
+                        <Column>
+                            <m:Label text="Function to Skip Serialization" />
+                            <template>
+                                <m:Input value="{func_skip}" wrapping="false"/>
+                            </template>
+                        </Column>
+                    </columns>
+                </Table>
+                <!-- </m:VBox> -->
+                <!-- <m:VBox id="tree" class="fancytree-container">
+                </m:VBox> -->
+                <!-- </m:content> -->
+            </f:content>
+            <!-- </m:Page> -->
+        </f:DynamicPage>
+    </m:App>
+</mvc:View>

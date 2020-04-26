@@ -1,0 +1,77 @@
+{
+    "_version": "1.12.0",
+    "sap.app": {
+        "id": "com.anders.fancytree",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata4/sap/zand_aif_config_bind/srvd/sap/zand_aif_config/0001/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "test/localService/metadata.xml"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "rootView": {
+            "viewName": "com.anders.fancytree.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "app"
+        },
+        "dependencies": {
+            "minUI5Version": "1.70.1",
+            "libs": {
+                "sap.m": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "com.anders.fancytree.i18n.i18n"
+                }
+            },
+            "": {
+                "type": "sap.ui.model.odata.v4.ODataModel",
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "earlyRequests": true,
+                    "updateGroupId": "update"
+                },
+                "dataSource": "mainService",
+                "preload": true
+            },
+            "resources": {
+                "css": [
+                    {
+                        "uri": "css/fancytree.css"
+                    },
+                    {
+                        "uri": "lib/fancytree/skin-win8/ui.fancytree.css"
+                    }
+                ]
+            }
+        }
+    }
+}
