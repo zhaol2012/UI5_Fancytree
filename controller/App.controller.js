@@ -50,10 +50,21 @@ sap.ui.define([
         },
         handleValueHelpClose: function (oEvent) {
             var oSelItem = oEvent.getParameter("selectedItem");
-            var sNS = oSelItem.getBindingContext().getObject().ns;
-            //var oInput = this.byId("NSInput");
-            //oInput.setValue(sNS);
-            this._oNSInput.setValue(sNS);
+            if (oSelItem !== undefined) {
+
+                var sNS = oSelItem.getBindingContext().getObject().ns;
+                //var oInput = this.byId("NSInput");
+                //oInput.setValue(sNS);
+                var oCreateSerObjDialog = this.byId("createSerObjDialog");
+                if (oCreateSerObjDialog.isOpen()) {
+                    var oNewNs = this.byId("NSNew");
+                    oNewNs.setValue(sNS);
+
+                } else {
+                    this._oNSInput.setValue(sNS);
+                }
+
+            }
         },
         handleSearch: function (oEvent) {
             var sValue = oEvent.getParameter("value");
@@ -62,40 +73,40 @@ sap.ui.define([
             oBinding.filter([oFilter]);
         },
         onCreateSerObj: function (oEvent) {
-            var oContext = this._oTable.getBinding("rows").create({
-                "namespace_serobj": "",
-                "serial_object": ""
-
-                /*        "max_no_retries": 0,
-                       "wait_time_sec": 0,
-                       "start_ext_index": 0 */
-            }, false, true);
+            /*             var oContext = this._oTable.getBinding("rows").create({
+                            "namespace_serobj": "",
+                            "serial_object": "",
+            
+                            "max_no_retries": 0,
+                            "wait_time_sec": 0,
+                            "start_ext_index": 0
+                        }, false, true); */
 
             var oCreateSerObjDialog = this.byId("createSerObjDialog");
-            var that = this;
+            //var that = this;
 
             // select the newly created one
             /*   this._oTable.setSelectedItem(
                   this._oTable.getRows()[oContext.getIndex()]);  */
 
-            this._oTable.setSelectedIndex(
-                oContext.getIndex());
+            /*             this._oTable.setSelectedIndex(
+                            oContext.getIndex()); */
 
-            oCreateSerObjDialog.setBindingContext(oContext);
+            //oCreateSerObjDialog.setBindingContext(oContext);
             oCreateSerObjDialog.open();
 
-            this.oCurrentCreateContext = oContext;
-            // Note: this promise fails only if the transient entity is deleted
-            oContext.created().then(function () {
-                // in case of multiple create, select current
-                if (oContext === that.oCurrentCreateContext) {
-
-                }
-                MessageBox.success("SerObj created: " + oContext.getProperty("namespace_serobj")
-                    + ", " + oContext.getProperty("serial_object"));
-            }, function (oError) {
-                // delete of transient entity
-            });
+            /*             this.oCurrentCreateContext = oContext;
+                        // Note: this promise fails only if the transient entity is deleted
+                        oContext.created().then(function () {
+                            // in case of multiple create, select current
+                            if (oContext === that.oCurrentCreateContext) {
+            
+                            }
+                            MessageBox.success("SerObj created: " + oContext.getProperty("namespace_serobj")
+                                + ", " + oContext.getProperty("serial_object"));
+                        }, function (oError) {
+                            // delete of transient entity
+                        }); */
 
         },
         onDeleteSerObj: function (oEvent) {
@@ -126,16 +137,62 @@ sap.ui.define([
             });
         },
         onCloseSerObjDialog: function (oEvent) {
+            var oSource = oEvent.getSource();
+            var sType = oSource.getType();
+            if (sType === "Accept") {
+                var oNewNs = this.byId("NSNew");
+                var oNewSerObj = this.byId("SerObjNew");
+                /*  var oContext = oSource.getBindingContext();
+                 oContext.setProperty("namespace_serobj", oNewNs.getValue());
+                 oContext.setProperty("serial_object", oNewSerObj.getValue()); */
+                var oContext = this._oTable.getBinding("rows").create({
+                    "namespace_serobj": oNewNs.getValue(),
+                    "serial_object": oNewSerObj.getValue()
+                }, false, true);
+                this._oTable.setSelectedIndex(
+                    oContext.getIndex());
+                oContext.created().then(function () {
+                    // in case of multiple create, select current
+                    /*   if (oContext === that.oCurrentCreateContext) {
+  
+                      } */
+                    MessageBox.success("SerObj created: " + oContext.getProperty("namespace_serobj")
+                        + ", " + oContext.getProperty("serial_object"));
+                }, function (oError) {
+                    // delete of transient entity
+                });
+            }
             this.byId("createSerObjDialog").close();
             // move the focus to the row of the newly created sales order
-            this._oTable.getItems()[0].focus();
+            this._oTable.getRows()[0].focus();
+        },
+        onNavigation: function (oEvent) {
+            var oRow = oEvent.getParameter("row");
         },
         onBeforeRendering: function () {
 
         },
         onAfterRendering: function () {
             //var sTreeId = this.byId("tree").getDomRef().getId();
+            this._addNavigation();
 
+        },
+        _addNavigation: function () {
+            var fnNavigation = this.onNavigation.bind(this);
+            var oRowActionTemplate = new sap.ui.table.RowAction({
+                items: [
+                    new sap.ui.table.RowActionItem({
+                        type: sap.ui.table.RowActionType.Navigation,
+                        text: "Details",
+                        press: fnNavigation
+                        // visible: !this._oUIControModel.getProperty("/isTechnicalInterface")
+                    })
+                ]
+            });
+
+            // Create navigation column
+            this._oTable.setRowActionTemplate(oRowActionTemplate);
+            this._oTable.setRowActionCount(1);
         },
         onShowHello: function () {
             var treeData = [

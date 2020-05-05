@@ -90,11 +90,11 @@
                                         <form:SimpleForm ariaLabelledBy="createSerObjDialog" editable="true" layout="ResponsiveGridLayout">
                                             <m:Label text="Namesapce"/>
                                             <!-- TODO Q: derive maxLength from type's constraints?! A: SmartField?! -->
-                                            <m:Input id="NSNew" maxLength="6" type="Text" placeholder="Serialization Namespace" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" value="{/namespace_serobj}">
+                                            <m:Input id="NSNew" maxLength="6" type="Text" placeholder="Serialization Namespace" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" value="{namespace_serobj}">
 
                                             </m:Input>
                                             <m:Label text="Serialization Object"/>
-                                            <m:Input id="SerObjNew" value="{/serial_object}"/>
+                                            <m:Input id="SerObjNew" value="{serial_object}"/>
 
                                         </form:SimpleForm>
                                     </m:Dialog>
@@ -167,10 +167,18 @@
                             </template>
                         </Column>
                     </columns>
+                    <!--               <rowActionTemplate>
+                        <RowAction >
+                            <items>
+                                <RowActionItem id="navToTree" type="Navigation" text="Details" press="onNavigation" visible="true">
+                                </RowActionItem>
+                            </items>
+                        </RowAction>
+                    </rowActionTemplate> -->
                 </Table>
                 <!-- </m:VBox> -->
                 <!-- <m:VBox id="tree" class="fancytree-container">
-                </m:VBox> -->
+                            </m:VBox> -->
                 <!-- </m:content> -->
             </f:content>
             <!-- </m:Page> -->
