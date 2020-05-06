@@ -1,0 +1,4 @@
+<mvc:View xmlns="sap.f" 
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true" controllerName="com.anders.fancytree.controller.FlexibleColumnLayout" height="100%">
+	<FlexibleColumnLayout autoFocus="false" id="fcl" stateChange="onStateChanged" layout="{ui>/layout}" backgroundDesign="Translucent"/>
+</mvc:View>

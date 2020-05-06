@@ -1,0 +1,27 @@
+<mvc:View displayBlock="true" controllerName="com.anders.fancytree.controller.Detail" height="100%" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns="sap.m" 
+	xmlns:l="sap.ui.layout">
+
+	<App id="SerObjInterfaceApp">
+		<Page showHeader="false" enableScrolling="true" class="sapUiContentPadding" showNavButton="false">
+			<headerContent>
+
+			</headerContent>
+			<content>
+				<l:HorizontalLayout id="tree" class="sapUiContentPadding fancytree-container">
+
+				</l:HorizontalLayout>
+			</content>
+			<footer>
+				<OverflowToolbar id="otbFooter">
+					<ToolbarSpacer/>
+					<OverflowToolbarButton type="Transparent" icon="sap-icon://full-screen" press="handleFullScreen" tooltip="Enter Full Screen Mode" visible="{= ${/actionButtonsInfo/midColumn/fullScreen} !== null }"/>
+					<OverflowToolbarButton type="Transparent" icon="sap-icon://exit-full-screen" press="handleExitFullScreen" tooltip="Exit Full Screen Mode" visible="{= ${/actionButtonsInfo/midColumn/exitFullScreen} !== null }"/>
+					<OverflowToolbarButton type="Transparent" icon="sap-icon://decline" press="handleClose" tooltip="Close column" visible="{= ${/actionButtonsInfo/midColumn/closeColumn} !== null }"/>
+				</OverflowToolbar>
+			</footer>
+
+		</Page>
+	</App>
+</mvc:View>

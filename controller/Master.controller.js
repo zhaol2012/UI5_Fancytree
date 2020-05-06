@@ -15,6 +15,7 @@ sap.ui.define([
     "use strict";
     return Controller.extend("com.anders.fancytree.App", {
         onInit: function () {
+            this.oRouter = this.getOwnerComponent().getRouter();
             this._oView = this.getView();
             this._oSerObjModel = this.getOwnerComponent().getModel();
             this._oView.setModel(this._oSerObjModel);
@@ -168,6 +169,12 @@ sap.ui.define([
         },
         onNavigation: function (oEvent) {
             var oRow = oEvent.getParameter("row");
+            var oObj = oRow.getBindingContext().getObject();
+            var oNextUIState = this.getOwnerComponent().getHelper().getNextUIState(1),
+                serObjPath = oRow.getBindingContext().getPath(),
+                serObj = serObjPath.split("/").slice(-1).pop();
+
+            this.oRouter.navTo("detail", { layout: oNextUIState.layout, serobj: serObj });
         },
         onBeforeRendering: function () {
 

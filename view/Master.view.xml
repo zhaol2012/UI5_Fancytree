@@ -1,4 +1,4 @@
-<mvc:View controllerName="com.anders.fancytree.controller.App" 
+<mvc:View controllerName="com.anders.fancytree.controller.Master" 
     xmlns:m="sap.m" 
     xmlns="sap.ui.table" 
     xmlns:f="sap.f" 
@@ -15,7 +15,7 @@
     <!--     <l:HorizontalLayout id="tree" class="sapUiContentPadding fancytree-container">
 
     </l:HorizontalLayout> -->
-    <m:App id="MessageMonitorApp">
+    <m:App id="SerializationObjectApp">
         <f:DynamicPage id="serObjPage" fitContent="true">
             <!-- <m:Page showHeader="false" enableScrolling="false" class="sapUiContentPadding"> -->
             <f:title>
@@ -121,49 +121,49 @@
                         <Column hAlign="End">
                             <m:Label text="Serialization Type" />
                             <template>
-                                <m:Input value="{serial_type}" wrapping="false"/>
+                                <m:Input value="{serial_type}"/>
                             </template>
                         </Column>
                         <Column>
                             <m:Label text="Serialization Table" />
                             <template>
-                                <m:Input value="{serial_table}" wrapping="false"/>
+                                <m:Input value="{serial_table}"/>
                             </template>
                         </Column>
                         <Column>
                             <m:Label text="Enqueue Object" />
                             <template>
-                                <m:Input value="{enq_obj_serial}" wrapping="false"/>
+                                <m:Input value="{enq_obj_serial}"/>
                             </template>
                         </Column>
                         <Column>
                             <m:Label text="Enqueue Object for Locking" />
                             <template>
-                                <m:Input value="{enq_obj_lock}" wrapping="false"/>
+                                <m:Input value="{enq_obj_lock}"/>
                             </template>
                         </Column>
                         <Column hAlign="End">
                             <m:Label text="Maximum Retry Number" />
                             <template>
-                                <m:Input value="{max_no_retries}" wrapping="false"/>
+                                <m:Input value="{max_no_retries}"/>
                             </template>
                         </Column>
                         <Column hAlign="End">
                             <m:Label text="Waiting Time in Seconds" />
                             <template>
-                                <m:Input value="{wait_time_sec}" wrapping="false"/>
+                                <m:Input value="{wait_time_sec}"/>
                             </template>
                         </Column>
                         <Column hAlign="End">
                             <m:Label text="Start External Index" />
                             <template>
-                                <m:Input value="{start_ext_index}" wrapping="false"/>
+                                <m:Input value="{start_ext_index}" />
                             </template>
                         </Column>
                         <Column>
                             <m:Label text="Function to Skip Serialization" />
                             <template>
-                                <m:Input value="{func_skip}" wrapping="false"/>
+                                <m:Input value="{func_skip}" />
                             </template>
                         </Column>
                     </columns>

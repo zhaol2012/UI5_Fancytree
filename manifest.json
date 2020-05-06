@@ -29,16 +29,21 @@
     },
     "sap.ui5": {
         "rootView": {
-            "viewName": "com.anders.fancytree.view.App",
+            "viewName": "com.anders.fancytree.view.FlexibleColumnLayout",
             "type": "XML",
             "async": true,
-            "id": "app"
+            "id": "fcl"
         },
         "dependencies": {
             "minUI5Version": "1.70.1",
             "libs": {
-                "sap.m": {}
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.f": {}
             }
+        },
+        "config": {
+            "fullWidth": true
         },
         "contentDensities": {
             "compact": true,
@@ -71,6 +76,44 @@
                         "uri": "lib/fancytree/skin-win8/ui.fancytree.css"
                     }
                 ]
+            }
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.f.routing.Router",
+                "viewType": "XML",
+                "viewPath": "com.anders.fancytree.view",
+                "controlId": "fcl",
+                "transition": "slide",
+                "bypassed": {},
+                "async": true
+            },
+            "routes": [
+                {
+                    "pattern": ":layout:",
+                    "name": "master",
+                    "target": [
+                        "master"
+                    ]
+                },
+                {
+                    "pattern": "detail/{serobj}/{layout}",
+                    "name": "detail",
+                    "target": [
+                        "master",
+                        "detail"
+                    ]
+                }
+            ],
+            "targets": {
+                "master": {
+                    "viewName": "Master",
+                    "controlAggregation": "beginColumnPages"
+                },
+                "detail": {
+                    "viewName": "Detail",
+                    "controlAggregation": "midColumnPages"
+                }
             }
         }
     }
